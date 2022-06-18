@@ -29,10 +29,15 @@ using Antlr4.Runtime.Atn;
 using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using DFA = Antlr4.Runtime.Dfa.DFA;
+using SmellFinder.Base;
 
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.9.3")]
 [System.CLSCompliant(false)]
+#pragma warning disable CS3021 // 'JavaScriptParser' no necesita ningún atributo CLSCompliant porque el ensamblado no tiene ningún atributo CLSCompliant
+#pragma warning disable CS0246 // El nombre del tipo o del espacio de nombres 'JavaScriptParserBase' no se encontró (¿falta una directiva using o una referencia de ensamblado?)
 public partial class JavaScriptParser : JavaScriptParserBase {
+#pragma warning restore CS0246 // El nombre del tipo o del espacio de nombres 'JavaScriptParserBase' no se encontró (¿falta una directiva using o una referencia de ensamblado?)
+#pragma warning restore CS3021 // 'JavaScriptParser' no necesita ningún atributo CLSCompliant porque el ensamblado no tiene ningún atributo CLSCompliant
 	protected static DFA[] decisionToDFA;
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
@@ -153,7 +158,9 @@ public partial class JavaScriptParser : JavaScriptParserBase {
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
 	[NotNull]
+#pragma warning disable CS0115 // 'JavaScriptParser.Vocabulary': no se encontró ningún miembro adecuado para invalidar
 	public override IVocabulary Vocabulary
+#pragma warning restore CS0115 // 'JavaScriptParser.Vocabulary': no se encontró ningún miembro adecuado para invalidar
 	{
 		get
 		{
@@ -161,11 +168,17 @@ public partial class JavaScriptParser : JavaScriptParserBase {
 		}
 	}
 
+#pragma warning disable CS0115 // 'JavaScriptParser.GrammarFileName': no se encontró ningún miembro adecuado para invalidar
 	public override string GrammarFileName { get { return "JavaScriptParser.g4"; } }
+#pragma warning restore CS0115 // 'JavaScriptParser.GrammarFileName': no se encontró ningún miembro adecuado para invalidar
 
+#pragma warning disable CS0115 // 'JavaScriptParser.RuleNames': no se encontró ningún miembro adecuado para invalidar
 	public override string[] RuleNames { get { return ruleNames; } }
+#pragma warning restore CS0115 // 'JavaScriptParser.RuleNames': no se encontró ningún miembro adecuado para invalidar
 
+#pragma warning disable CS0115 // 'JavaScriptParser.SerializedAtn': no se encontró ningún miembro adecuado para invalidar
 	public override string SerializedAtn { get { return new string(_serializedATN); } }
+#pragma warning restore CS0115 // 'JavaScriptParser.SerializedAtn': no se encontró ningún miembro adecuado para invalidar
 
 	static JavaScriptParser() {
 		decisionToDFA = new DFA[_ATN.NumberOfDecisions];
@@ -9181,6 +9194,7 @@ public partial class JavaScriptParser : JavaScriptParserBase {
 		return _localctx;
 	}
 
+#pragma warning disable CS0115 // 'JavaScriptParser.Sempred(RuleContext, int, int)': no se encontró ningún miembro adecuado para invalidar
 	public override bool Sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
 		case 19: return expressionStatement_sempred((ExpressionStatementContext)_localctx, predIndex);
@@ -9198,6 +9212,7 @@ public partial class JavaScriptParser : JavaScriptParserBase {
 		}
 		return true;
 	}
+#pragma warning restore CS0115 // 'JavaScriptParser.Sempred(RuleContext, int, int)': no se encontró ningún miembro adecuado para invalidar
 	private bool expressionStatement_sempred(ExpressionStatementContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0: return this.notOpenBraceAndNotFunction();

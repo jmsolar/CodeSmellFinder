@@ -29,7 +29,9 @@ using IToken = Antlr4.Runtime.IToken;
 /// </summary>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.9.3")]
 [System.CLSCompliant(false)]
+#pragma warning disable CS3021 // 'IJavaScriptParserListener' no necesita ningún atributo CLSCompliant porque el ensamblado no tiene ningún atributo CLSCompliant
 public interface IJavaScriptParserListener : IParseTreeListener {
+#pragma warning restore CS3021 // 'IJavaScriptParserListener' no necesita ningún atributo CLSCompliant porque el ensamblado no tiene ningún atributo CLSCompliant
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="JavaScriptParser.program"/>.
 	/// </summary>

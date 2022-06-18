@@ -34,7 +34,9 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.9.3")]
 [System.Diagnostics.DebuggerNonUserCode]
 [System.CLSCompliant(false)]
+#pragma warning disable CS3021 // 'JavaScriptParserBaseListener' no necesita ningún atributo CLSCompliant porque el ensamblado no tiene ningún atributo CLSCompliant
 public partial class JavaScriptParserBaseListener : IJavaScriptParserListener {
+#pragma warning restore CS3021 // 'JavaScriptParserBaseListener' no necesita ningún atributo CLSCompliant porque el ensamblado no tiene ningún atributo CLSCompliant
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="JavaScriptParser.program"/>.
 	/// <para>The default implementation does nothing.</para>

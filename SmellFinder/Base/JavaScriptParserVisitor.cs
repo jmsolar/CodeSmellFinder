@@ -30,7 +30,9 @@ using IToken = Antlr4.Runtime.IToken;
 /// <typeparam name="Result">The return type of the visit operation.</typeparam>
 [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.9.3")]
 [System.CLSCompliant(false)]
+#pragma warning disable CS3021 // 'IJavaScriptParserVisitor<Result>' no necesita ningún atributo CLSCompliant porque el ensamblado no tiene ningún atributo CLSCompliant
 public interface IJavaScriptParserVisitor<Result> : IParseTreeVisitor<Result> {
+#pragma warning restore CS3021 // 'IJavaScriptParserVisitor<Result>' no necesita ningún atributo CLSCompliant porque el ensamblado no tiene ningún atributo CLSCompliant
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="JavaScriptParser.program"/>.
 	/// </summary>
