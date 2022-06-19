@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{AEF7D2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmellFinder", "SmellFinder\SmellFinder.csproj", "{B1423C11-30DC-46EC-800D-9F64AEBCC3F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmellFinderTool", "SmellFinderTool\SmellFinderTool.csproj", "{6BD11790-EAD2-4463-AE66-98E4DA1FE2A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmellFinderTool", "SmellFinderTool\SmellFinderTool.csproj", "{12A568D1-067D-47A0-B72A-C022C3FB68CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,17 +21,17 @@ Global
 		{B1423C11-30DC-46EC-800D-9F64AEBCC3F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1423C11-30DC-46EC-800D-9F64AEBCC3F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1423C11-30DC-46EC-800D-9F64AEBCC3F1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6BD11790-EAD2-4463-AE66-98E4DA1FE2A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6BD11790-EAD2-4463-AE66-98E4DA1FE2A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6BD11790-EAD2-4463-AE66-98E4DA1FE2A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6BD11790-EAD2-4463-AE66-98E4DA1FE2A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12A568D1-067D-47A0-B72A-C022C3FB68CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12A568D1-067D-47A0-B72A-C022C3FB68CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12A568D1-067D-47A0-B72A-C022C3FB68CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12A568D1-067D-47A0-B72A-C022C3FB68CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B1423C11-30DC-46EC-800D-9F64AEBCC3F1} = {AEF7D2F9-B58E-4269-8444-05183D5676AD}
-		{6BD11790-EAD2-4463-AE66-98E4DA1FE2A9} = {AEF7D2F9-B58E-4269-8444-05183D5676AD}
+		{12A568D1-067D-47A0-B72A-C022C3FB68CB} = {AEF7D2F9-B58E-4269-8444-05183D5676AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7FDF412-D94F-4C3C-99F9-61C2AC85F198}
