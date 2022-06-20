@@ -1,4 +1,4 @@
-﻿using System;
+﻿using SmellFinderTool.Utils;
 
 namespace SmellFinderTool
 {
@@ -6,15 +6,14 @@ namespace SmellFinderTool
     {
         static void Main(string[] args)
         {
+            var path = CodeSmellSelector.SelectDirectory();
+            var smells = CodeSmellSelector.SelectSmell();
 
-            // Solicita directorio a evaluar
-            // Solicito smells a procesar
-            // Evaluo el directorio y smells
-            // Retorno errores si algo salio mal
-            // Si esta todo OK
-                // Proceso directorio
-                // Creo directorio de salida
-                // Genero un archivo json para informe haciendo append de la informacion obtenida
+            ReaderHelper.ProcessDirectoryPath(path, smells);
+
+            // Proceso directorio
+            // Creo directorio de salida
+            // Genero un archivo json para informe haciendo append de la informacion obtenida
         }
     }
 }

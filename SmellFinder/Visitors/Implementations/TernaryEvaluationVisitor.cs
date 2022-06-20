@@ -10,7 +10,7 @@ namespace SmellFinder.Visitors.Implementations
             {
                 var ifCTX = (JavaScriptParser.IfStatementContext)ctx;
                 var hasElseStatement = ifCTX.GetToken(JavaScriptParser.Else, 0);
-                
+
                 if (!(hasElseStatement is null))
                 {
                     var strPosition = ifCTX.Start;
