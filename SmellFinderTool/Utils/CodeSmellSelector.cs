@@ -1,17 +1,10 @@
 ﻿using Spectre.Console;
-using System;
-using System.IO;
 
 namespace SmellFinderTool.Utils
 {
     public static class CodeSmellSelector
     {
-        public static string SelectDirectory()
-        {
-            var directoryName = AnsiConsole.Ask<string>("Which directory are you going to look for [green]code smells[/]?");
-
-            return directoryName;
-        }
+        public static string SelectDirectory() => AnsiConsole.Ask<string>("Which directory are you going to look for [green]code smells[/]?");
 
         public static string SelectSmell()
         {
@@ -26,7 +19,7 @@ namespace SmellFinderTool.Utils
                                 "[green]<enter>[/] to accept and process)[/]")
                             .AddChoices(new[] { "Assignament by 'var' sentence", "Ternary operator" }));
 
-            foreach (string smell in smells) AnsiConsole.WriteLine(smell);
+            foreach (string smell in smells) AnsiConsole.MarkupLine("[blue]Your selected path:[/] {0}", smell);
 
             var smellsSelected = smells.Count == 1 ? smells[0] : null;
 
