@@ -1,7 +1,10 @@
-﻿using System;
+﻿using SmellFinder.Attributes;
+using SmellFinder.Visitors.Implementations.Base;
+using System;
 
 namespace SmellFinder.Visitors.Implementations
 {
+    [Visitor("TernaryEvaluationVisitor", Description = "Evaluator ternary condition")]
     public class TernaryEvaluationVisitor : BaseVisitor
     {
         public override void EvalTreeNode(Antlr4.Runtime.ParserRuleContext ctx)

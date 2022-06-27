@@ -1,8 +1,11 @@
-﻿using System;
+﻿using SmellFinder.Attributes;
+using SmellFinder.Visitors.Implementations.Base;
+using System;
 
 namespace SmellFinder.Visitors.Implementations
 {
-    internal class VarAssignmentVisitor : BaseVisitor
+    [Visitor("VarAssignmentVisitor", Description = "Assignament value with 'var' sentence")]
+    public class VarAssignmentVisitor : BaseVisitor
     {
         public override void EvalTreeNode(Antlr4.Runtime.ParserRuleContext ctx)
         {

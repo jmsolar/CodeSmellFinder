@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using Newtonsoft.Json.Linq;
+using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,8 +10,14 @@ namespace SmellFinderTool.Progresses
 {
     public static class CSProgress
     {
+        #region Fields
         private static Progress Progress { get; set; }
+        private static string Filename { get; set; }
+        private static List<string> Smells { get; set; }
+        private static JArray Info { get; set; } = new JArray();
+        #endregion
 
+        #region Private methods
         private static void Config()
         {
             Progress = AnsiConsole
@@ -21,26 +28,21 @@ namespace SmellFinderTool.Progresses
                     new TaskDescriptionColumn(),    // Task description
                     new ProgressBarColumn(),        // Progress bar
                     new PercentageColumn(),         // Percentage
-                    new RemainingTimeColumn(),      // Remaining time
                     new SpinnerColumn()             // Spinner
                 });
         }
 
         private static List<(ProgressTask Task, int Delay)> CreateTasks(ProgressContext progress, Random random)
         {
-            var tasks = new List<(ProgressTask, int)>();
-            while (tasks.Count < 5)
+            var tasks = new List<(ProgressTask, int)>
             {
-                if (DescriptionGenerator.TryGenerate(out var name))
-                {
-                    tasks.Add((progress.AddTask(name), random.Next(2, 10)));
-                }
-            }
+                (progress.AddTask("Searching bad smells"), random.Next(2, 10))
+            };
 
             return tasks;
         }
 
-        private static void ProcessDirectory(string targetDirectory, string smells)
+        private static void ProcessDirectory(string targetDirectory)
         {
             List<string> fileToProcess = Directory.GetFiles(targetDirectory).Where(x => x.EndsWith(".js") && !x.EndsWith(".min.js")).ToList();
 
@@ -48,7 +50,7 @@ namespace SmellFinderTool.Progresses
             {
                 try
                 {
-                    ProcessFile(fileName, smells);
+                    ProcessFile(fileName);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -61,7 +63,7 @@ namespace SmellFinderTool.Progresses
             {
                 try
                 {
-                    ProcessDirectory(subdirectory, smells);
+                    ProcessDirectory(subdirectory);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -70,13 +72,29 @@ namespace SmellFinderTool.Progresses
             }
         }
 
-        private static void ProcessFile(string path, string smells)
+        private static void ProcessFile(string path)
         {
             var fileContent = LoadJS(path);
-            var parser = SmellFinder.Utils.ParserGenerator.New(fileContent);
-            SmellFinder.Processors.FinderProcessor.Process(parser, smells);
 
-            AnsiConsole.Write("[green]Processed file[/] {0}", path);
+            if (!string.IsNullOrEmpty(fileContent))
+            {
+                var parser = SmellFinder.Utils.ParserGenerator.New(fileContent);
+                var smellsDetected = SmellFinder.Processors.FinderProcessor.Process(parser, Smells);
+                
+                JArray smellsArray = new JArray();
+                foreach (var smell in smellsDetected)
+                {
+                    JObject fileProcessed = new JObject()
+                    {
+                        new JProperty("name", smell.Key),
+                        new JProperty("linesAffected", smell.Value)
+                    };
+
+                    smellsArray.Add(fileProcessed);
+                }
+
+                Info.Add(smellsArray);
+            }
         }
 
         private static string LoadJS(string pathFile)
@@ -90,39 +108,40 @@ namespace SmellFinderTool.Progresses
                 throw new Exception(ex.Message);
             }
         }
+        #endregion
 
-        public static void Init(string path, string smells)
+        #region Methods
+        public static void Init(string path, List<string> smells, out string filename)
         {
             Config();
+            Filename = string.Concat(path, Path.DirectorySeparatorChar.ToString(), "BS-", DateTime.Now.ToString("yyyyMMddHHmmssffff"), ".json");
+            Smells = smells;
+            JObject data = new JObject();
+
             Progress.Start(ctx =>
             {
                 var random = new Random(DateTime.Now.Millisecond);
-
-                // Create some tasks
                 var tasks = CreateTasks(ctx, random);
-                var warpTask = ctx.AddTask("Going to warp", autoStart: false).IsIndeterminate();
+                ProcessDirectory(path);
 
-                // Wait for all tasks (except the indeterminate one) to complete
                 while (!ctx.IsFinished)
                 {
-                    // Increment progress
                     foreach (var (task, increment) in tasks)
                     {
                         task.Increment(random.NextDouble() * increment);
                     }
 
-                    Thread.Sleep(1);
-                }
-
-                // Now start the "warp" task
-                warpTask.StartTask();
-                warpTask.IsIndeterminate(false);
-                while (!ctx.IsFinished)
-                {
-                    warpTask.Increment(12 * random.NextDouble());
-                    Thread.Sleep(1);
+                    Thread.Sleep(100);
                 }
             });
+
+            data.Add(new JProperty("File", path));
+            data.Add(new JProperty("Smells", Info));
+
+            File.AppendAllText(Filename, data.ToString());
+
+            filename = Filename;
         }
+        #endregion
     }
 }

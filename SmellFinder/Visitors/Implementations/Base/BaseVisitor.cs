@@ -1,13 +1,12 @@
 ﻿using Antlr4.Runtime;
 using SmellFinder.Visitors.Interfaces;
-using System.Collections.Generic;
 
-namespace SmellFinder.Visitors.Implementations
+namespace SmellFinder.Visitors.Implementations.Base
 {
     public abstract class BaseVisitor : JavaScriptParserBaseVisitor<string>, IBaseVisitor
     {
         #region Fields
-        private readonly List<string> SmellPositionList = new List<string>();
+        private string SmellPositionList { get; set; } = string.Empty;
         #endregion
 
         #region Methods
@@ -25,13 +24,11 @@ namespace SmellFinder.Visitors.Implementations
         #endregion
 
         #region Helper methods
-        public List<string> Smells() => this.SmellPositionList;
-
-        public int SmellsFinder() => this.SmellPositionList.Count;
+        public string Smells() => SmellPositionList;
 
         public void AddSmell(string smell)
         {
-            this.SmellPositionList.Add(smell);
+            this.SmellPositionList = string.Concat(Smells(), ",", smell);
         }
         #endregion
     }
