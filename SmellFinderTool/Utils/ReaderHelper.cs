@@ -8,24 +8,29 @@ namespace SmellFinderTool.Utils
     public static class ReaderHelper
     {
         #region Private methods
-        private static bool IsValidDirectory(string directory) => Directory.Exists(directory);
+        private static bool IsValidDirectory(string directory)
+        {
+            bool existPath = Directory.Exists(directory);
+
+            if (!existPath)
+            {
+                AnsiConsole.Write(new Rule($"[red]Directory[/] {directory} [red]path doesn't exist[/]"));
+            }
+
+            return existPath;
+        }
         #endregion
 
         #region Methods
-        public static bool ProcessDirectoryPath(string path, List<string> smells)
+        public static void ProcessFiles(string path, List<string> smells)
         {
             if (IsValidDirectory(path))
             {
-                AnsiConsole.MarkupLine("[yellow]Initializing process[/]...");
-
-                CSProgress.Init(path, smells, out string filename);
-                AnsiConsole.Write(new Rule(string.Format("[blue]See result details in file:[/] [italic]{0}[/]", filename)));
-
-                return true;
+                DisplayProgress.Init(path, smells);
             }
 
-            AnsiConsole.Write(new Rule(string.Format("[red]Directory[/] {0} [red]path doesn't exist[/]", path)));
-            return false;
+            AnsiConsole.MarkupLine("[grey]\nPress any key to close window[/]");
+            AnsiConsole.Console.Input.ReadKey(true);
         }
         #endregion
     }

@@ -1,30 +1,37 @@
 ﻿using SmellFinder.Attributes;
-using SmellFinder.Visitors.Implementations.Base;
 using System;
+using static JavaScriptParser;
 
-namespace SmellFinder.Visitors.Implementations
+namespace SmellFinder.Visitors
 {
     [Visitor("VarAssignmentVisitor", Description = "Assignament value with 'var' sentence")]
     public class VarAssignmentVisitor : BaseVisitor
     {
-        public override void EvalTreeNode(Antlr4.Runtime.ParserRuleContext ctx)
+        #region Fields
+        private static readonly string VarKeyword = "var";
+        #endregion
+
+        #region Methods
+        public override string VisitVariableDeclarationList(VariableDeclarationListContext ctx)
         {
             try
             {
-                var varCTX = (JavaScriptParser.VariableDeclarationListContext)ctx;
-                var stModifier = varCTX.varModifier();
+                var stModifier = ctx.varModifier();
 
-                if (stModifier.GetText() == "var")
+                if (stModifier.GetText().Equals(VarKeyword))
                 {
                     var strPosition = stModifier.Start;
                     var lineNumber = strPosition.Line.ToString();
-                    base.AddSmell(string.Format("{0}", lineNumber));
+                    AddSmell(string.Format("{0}", lineNumber));
                 }
+
+                return VisitNextTreeNode(ctx);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+        #endregion
     }
 }

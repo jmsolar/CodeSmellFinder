@@ -3,9 +3,9 @@ using SmellFinder.ErrorListeners;
 
 namespace SmellFinder.Utils
 {
-    public static class ParserGenerator
+    public static class Parser
     {
-        public static JavaScriptParser New(string fileContent)
+        public static JavaScriptParser Create(string fileContent)
         {
             var stream = new AntlrInputStream(fileContent);
             var lexer = new JavaScriptLexer(stream);

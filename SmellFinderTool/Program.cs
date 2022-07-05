@@ -1,12 +1,9 @@
-﻿using SmellFinderTool.Runner;
+﻿using SmellFinderTool.Runners;
 
 namespace SmellFinderTool
 {
     public class Program
     {
-        static void Main(string[] args)
-        {
-            Executor.Run();
-        }
+        static void Main() => Finder.Run();
     }
 }

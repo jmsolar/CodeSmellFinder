@@ -10,60 +10,58 @@ namespace SmellFinderTool.Utils
     public static class DataSelector
     {
         #region Private methods
-        private static Dictionary<string, string> GetOptionsName()
+        private static Dictionary<string, string> GetOptions()
         {
-            var resp = new Dictionary<string, string>();
-
-            Assembly objAssembly = Assembly.Load("SmellFinder, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            Dictionary<string, string> options = new Dictionary<string, string>();
             string definedIn = typeof(VisitorAttribute).Assembly.GetName().Name;
 
-            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var type in from Assembly assembly in AppDomain.CurrentDomain.GetAssemblies()
+                                 where (!assembly.GlobalAssemblyCache) && ((assembly.GetName().Name == definedIn) || assembly.GetReferencedAssemblies().Any(a => a.Name == definedIn))
+                                 from Type type in assembly.GetTypes()
+                                 select type)
             {
-                if ((!assembly.GlobalAssemblyCache) && ((assembly.GetName().Name == definedIn) || assembly.GetReferencedAssemblies().Any(a => a.Name == definedIn)))
+                try
                 {
-                    foreach (Type type in assembly.GetTypes())
+                    if (type.GetCustomAttributes(typeof(VisitorAttribute), true).Length > 0)
                     {
-                        try
-                        {
-                            if (type.GetCustomAttributes(typeof(VisitorAttribute), true).Length > 0)
-                            {
-                                VisitorAttribute attr = (VisitorAttribute)Attribute.GetCustomAttribute(type, typeof(VisitorAttribute));
-                                resp.Add(attr.Name, attr.Description);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            AnsiConsole.WriteLine("Hey! you should need review you code.." + ex.ToString());
-                            continue;
-                        }
+                        VisitorAttribute attr = (VisitorAttribute)Attribute.GetCustomAttribute(type, typeof(VisitorAttribute));
+                        options.Add(attr.Name, attr.Description);
                     }
+                }
+                catch (Exception ex)
+                {
+                    AnsiConsole.WriteLine("\nHey! you should need review you code.." + ex.Message);
+                    continue;
                 }
             }
 
-            return resp;
+            return options;
         }
-        private static Dictionary<string, string> options { get => GetOptionsName(); }
+
+        private static Dictionary<string, string> Options { get => GetOptions(); }
+
+        private static List<string> ConvertSmellToVisitor(List<string> selected) => Options.Where(x => selected.Contains(x.Value)).Select(x => x.Key).ToList();
         #endregion
 
         #region Methods
-        public static string SelectDirectory() => AnsiConsole.Ask<string>("Which directory are you going to look for [green]code smells[/]?");
+        public static string SelectDirectory => AnsiConsole.Ask<string>("\n\nWhich directory are you going to look for [springgreen4]code smells[/]?");
 
         public static List<string> SelectSmell()
         {
-            AnsiConsole.Prompt(
+            List<string> selected = AnsiConsole.Prompt(
                         new MultiSelectionPrompt<string>()
-                            .Title("What [green]code smell[/] do you need to validate?")
+                            .Title("What [springgreen4]code smell[/] do you need to validate?")
                             .NotRequired()
                             .PageSize(5)
                             .MoreChoicesText("[grey](Move up and down to reveal more code smells)[/]")
                             .InstructionsText(
                                 "[grey](Press [blue]<space>[/] to toggle a code smell, " +
                                 "[green]<enter>[/] to accept and process)[/]")
-                            .AddChoiceGroup("All", options.Values));
+                            .AddChoiceGroup("All", Options.Values));
 
-            AnsiConsole.MarkupLine("[blue]Your selected options:[/] {0}", string.Join(", ", options.Values));
+            AnsiConsole.MarkupLine("[deepskyblue3_1]Your selected options:[/] [bold italic]{0}[/]", string.Join(", ", selected));
 
-            return options.Keys.ToList();
+            return ConvertSmellToVisitor(selected);
         }
         #endregion
     }

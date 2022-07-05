@@ -1,30 +1,33 @@
 ﻿using SmellFinder.Attributes;
-using SmellFinder.Visitors.Implementations.Base;
 using System;
+using static JavaScriptParser;
 
-namespace SmellFinder.Visitors.Implementations
+namespace SmellFinder.Visitors
 {
     [Visitor("TernaryEvaluationVisitor", Description = "Evaluator ternary condition")]
     public class TernaryEvaluationVisitor : BaseVisitor
     {
-        public override void EvalTreeNode(Antlr4.Runtime.ParserRuleContext ctx)
+        #region Methods
+        public override string VisitIfStatement(IfStatementContext ctx)
         {
             try
             {
-                var ifCTX = (JavaScriptParser.IfStatementContext)ctx;
-                var hasElseStatement = ifCTX.GetToken(JavaScriptParser.Else, 0);
+                var hasElseStatement = ctx.GetToken(Else, 0);
 
                 if (!(hasElseStatement is null))
                 {
-                    var strPosition = ifCTX.Start;
+                    var strPosition = ctx.Start;
                     var lineNumber = strPosition.Line.ToString();
-                    base.AddSmell(string.Format("{0}", lineNumber));
+                    AddSmell(string.Format("{0}", lineNumber));
                 }
+
+                return VisitNextTreeNode(ctx);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+        #endregion
     }
 }
