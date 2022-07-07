@@ -4,11 +4,11 @@ using static JavaScriptParser;
 
 namespace SmellFinder.Visitors
 {
-    [Visitor("ObjectInstanceVisitor", Description = "Creation object", Message = "you should create an instance like this: let example = ()")]
-    public class ObjectInstanceVisitor : BaseVisitor
+    [Visitor("ArrayInstanceVisitor", Description = "Creation array", Message = "you should create an instance like this: let example = []")]
+    public class ArrayInstanceVisitor : BaseVisitor
     {
         #region Fields
-        private static readonly string ObjectKeyword = "Object";
+        private static readonly string ArrayKeyword = "Array";
         #endregion
 
         #region Methods
@@ -19,7 +19,7 @@ namespace SmellFinder.Visitors
                 string identifier = ctx.singleExpression().GetText();
                 var arguments = ctx.arguments().argument().Length > 0;
 
-                if (identifier.Equals(ObjectKeyword) && !arguments)
+                if (identifier.Equals(ArrayKeyword) && !arguments)
                 {
                     var strPosition = ctx.Start;
                     var lineNumber = strPosition.Line.ToString();

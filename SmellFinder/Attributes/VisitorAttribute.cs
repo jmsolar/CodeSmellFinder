@@ -7,6 +7,7 @@ namespace SmellFinder.Attributes
     {
         public string Name;
         public string Description;
+        public string Message;
 
         public VisitorAttribute(string name)
         {
