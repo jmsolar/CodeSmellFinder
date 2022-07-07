@@ -4,7 +4,7 @@ using static JavaScriptParser;
 
 namespace SmellFinder.Visitors
 {
-    [Visitor("TernaryEvaluationVisitor", Description = "Evaluator ternary condition")]
+    [Visitor("TernaryEvaluationVisitor", Description = "Evaluator ternary condition", Message = "you should use ternary condition for this purpose")]
     public class TernaryEvaluationVisitor : BaseVisitor
     {
         #region Methods

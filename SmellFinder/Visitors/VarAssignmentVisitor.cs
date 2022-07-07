@@ -4,7 +4,7 @@ using static JavaScriptParser;
 
 namespace SmellFinder.Visitors
 {
-    [Visitor("VarAssignmentVisitor", Description = "Assignament value with 'var' sentence")]
+    [Visitor("VarAssignmentVisitor", Description = "Assignament value with 'var' sentence", Message = "you should use keyword let or const for that")]
     public class VarAssignmentVisitor : BaseVisitor
     {
         #region Fields

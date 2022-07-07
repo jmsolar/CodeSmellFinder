@@ -48,31 +48,31 @@ namespace SmellFinderTool.Utils
 
             if (!string.IsNullOrEmpty(fileContent))
             {
-                var resp = VisitorScanner.Search(Smells, Parser);
-                var smellsDetected = Activator.CreateInstance(typeof(SmellResponse), resp);
+                List<SmellResponse> foundSmells = VisitorScanner.Search(Smells, Parser);
 
                 JArray smellsArray = new JArray();
-                //foreach (var smell in smellsDetected)
-                //{
-                //    JObject smellProcessed = new JObject()
-                //    {
-                //        new JProperty("name", smell.Key),
-                //        new JProperty("linesAffected", smell.Value)
-                //    };
+                foreach (var smell in foundSmells)
+                {
+                    JObject smellProcessed = new JObject()
+                    {
+                        new JProperty("name", smell.Description),
+                        new JProperty("information", smell.Message),
+                        new JProperty("linesAffected", smell.LinesAffected.ToList())
+                    };
 
-                //    smellsArray.Add(smellProcessed);
-                //}
+                    smellsArray.Add(smellProcessed);
+                }
 
-                //if (smellsArray.Any())
-                //{
-                //    JObject fileProcessed = new JObject()
-                //    {
-                //        new JProperty("file", path),
-                //        new JProperty("smells", smellsArray)
-                //    };
+                if (smellsArray.Any())
+                {
+                    JObject fileProcessed = new JObject()
+                    {
+                        new JProperty("file", path),
+                        new JProperty("smells", smellsArray)
+                    };
 
-                //    Data.Add(fileProcessed);
-                //}
+                    Data.Add(fileProcessed);
+                }
             }
         }
 
