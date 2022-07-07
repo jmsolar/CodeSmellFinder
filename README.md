@@ -23,17 +23,20 @@ dotnet SmellFinderTool.dll
 
  - Selector folder to analize files
  
-![image](https://user-images.githubusercontent.com/19495643/177678875-2d44b25b-c0d6-466e-986a-f7885996690b.png)
+![image](https://user-images.githubusercontent.com/19495643/177873466-f298ecf0-1dbe-4eee-8366-b27b79a1f538.png)
+
+ - Selector smell to search
+
+![image](https://user-images.githubusercontent.com/19495643/177873604-27b8e5bd-a7b3-4905-a10f-09e5f5c65cdc.png)
 
  - Analizing .js files
  
-![image](https://user-images.githubusercontent.com/19495643/177678949-609a43ee-b595-49fd-a235-39ef090914f3.png)
+![image](https://user-images.githubusercontent.com/19495643/177873688-0918a426-f5ca-4462-bf22-c41b04cda4a9.png)
 
  - Report file JSON generated
  
-![image](https://user-images.githubusercontent.com/19495643/177678990-22328775-1e85-4560-8954-b4e6374d0981.png)
+![image](https://user-images.githubusercontent.com/19495643/177874503-f934b02d-a767-43eb-af0d-8f6190d62525.png)
 
-![image](https://user-images.githubusercontent.com/19495643/177679697-14216aae-c585-4b63-bc41-a89e58eaf910.png)
 
 ## Adding new visitors
 New visitor extensions are welcome! Check this guide to add visitors
