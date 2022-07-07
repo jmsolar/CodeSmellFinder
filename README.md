@@ -42,7 +42,7 @@ New visitor extensions are welcome! Check this guide to add visitors
 
 Want to help develop CodeSmellFinder project? Check out our [contribution guide](/CONTRIBUTING.md).
 
-Issues should be issued at https://github.com/jmsolar/CodeSmellFinder/testing-issue
+Issues should be issued at https://github.com/jmsolar/CodeSmellFinder/tree/testing-issue
 
 ## Aditional librarys used
 *  Antlr4 tool https://github.com/antlr/antlr4
