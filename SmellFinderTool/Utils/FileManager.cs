@@ -76,7 +76,7 @@ namespace SmellFinderTool.Utils
 
         private static void ProcessDirectory(string targetDirectory)
         {
-            List<string> fileToProcess = Directory.GetFiles(targetDirectory).Where(x => x.EndsWith(".js") && !x.EndsWith(".min.js")).ToList();
+            List<string> fileToProcess = Directory.GetFiles(targetDirectory).Where(x => x.EndsWith(".js") && !x.EndsWith(".min.js") && !x.EndsWith(".slim.js")).ToList();
             foreach (string fileName in fileToProcess)
             {
                 try
