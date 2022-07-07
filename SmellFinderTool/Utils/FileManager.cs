@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using SmellFinder.Models;
 using SmellFinder.Scanners;
 using System;
 using System.Collections.Generic;
@@ -47,30 +48,31 @@ namespace SmellFinderTool.Utils
 
             if (!string.IsNullOrEmpty(fileContent))
             {
-                Dictionary<string, List<string>> smellsDetected = VisitorScanner.Search(Smells, Parser);
+                var resp = VisitorScanner.Search(Smells, Parser);
+                var smellsDetected = Activator.CreateInstance(typeof(SmellResponse), resp);
 
                 JArray smellsArray = new JArray();
-                foreach (var smell in smellsDetected)
-                {
-                    JObject smellProcessed = new JObject()
-                    {
-                        new JProperty("name", smell.Key),
-                        new JProperty("linesAffected", smell.Value)
-                    };
+                //foreach (var smell in smellsDetected)
+                //{
+                //    JObject smellProcessed = new JObject()
+                //    {
+                //        new JProperty("name", smell.Key),
+                //        new JProperty("linesAffected", smell.Value)
+                //    };
 
-                    smellsArray.Add(smellProcessed);
-                }
+                //    smellsArray.Add(smellProcessed);
+                //}
 
-                if (smellsArray.Any())
-                {
-                    JObject fileProcessed = new JObject()
-                    {
-                        new JProperty("file", path),
-                        new JProperty("smells", smellsArray)
-                    };
+                //if (smellsArray.Any())
+                //{
+                //    JObject fileProcessed = new JObject()
+                //    {
+                //        new JProperty("file", path),
+                //        new JProperty("smells", smellsArray)
+                //    };
 
-                    Data.Add(fileProcessed);
-                }
+                //    Data.Add(fileProcessed);
+                //}
             }
         }
 

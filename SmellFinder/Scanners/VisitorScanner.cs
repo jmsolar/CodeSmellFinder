@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime.Tree;
 using SmellFinder.Attributes;
+using SmellFinder.Models;
 using SmellFinder.Utils;
 using SmellFinder.Visitors;
 using System;
@@ -34,9 +35,12 @@ namespace SmellFinder.Scanners
             return visitors;
         }
 
-        private static Dictionary<string, List<string>> Visit(List<string> smells, JavaScriptParser parser)
+        private static SmellResponse Visit(List<string> smells, JavaScriptParser parser)
         {
-            Dictionary<string, List<string>> foundSmells = new Dictionary<string, List<string>>();
+            SmellResponse foundSmells = new SmellResponse
+            {
+                LinesAffected = new List<string>()
+            };
 
             IParseTree tree;
             tree = parser.program();
@@ -55,10 +59,14 @@ namespace SmellFinder.Scanners
 
                 visitor.BaseVisit(tree);
 
-                if (visitor.Exists() && !foundSmells.ContainsKey(visitorName.Name))
+                if (visitor.Exists() && !foundSmells.Contains(visitorName.Name))
                 {
                     var description = visitorName.CustomAttributes.Select(x => x.NamedArguments.Where(x => x.MemberName == "Description").First()).First();
-                    foundSmells.Add(description.TypedValue.Value.ToString(), visitor.Smells());
+                    var message = visitorName.CustomAttributes.Select(x => x.NamedArguments.Where(x => x.MemberName == "Message").First()).First();
+
+                    foundSmells.Description = description.TypedValue.Value.ToString();
+                    foundSmells.Message = message.TypedValue.Value.ToString();
+                    foundSmells.LinesAffected.AddRange(visitor.Smells());
                 }
             }
 
@@ -68,7 +76,7 @@ namespace SmellFinder.Scanners
 
         #region Methods
         public static JavaScriptParser GetParser(string fileContent) => Parser.Create(fileContent);
-        public static Dictionary<string, List<string>> Search(List<string> smells, JavaScriptParser parser) => Visit(smells, parser);
+        public static SmellResponse Search(List<string> smells, JavaScriptParser parser) => Visit(smells, parser);
         #endregion
     }
 }
