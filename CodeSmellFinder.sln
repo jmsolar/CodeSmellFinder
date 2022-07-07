@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{069872D3-A842-42AC-B66C-5902E499A4A6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{AEF7D2F9-B58E-4269-8444-05183D5676AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmellFinder", "SmellFinder\SmellFinder.csproj", "{B1423C11-30DC-46EC-800D-9F64AEBCC3F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmellFinderTool", "SmellFinderTool\SmellFinderTool.csproj", "{12A568D1-067D-47A0-B72A-C022C3FB68CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmellFinderTool", "SmellFinderTool\SmellFinderTool.csproj", "{12A568D1-067D-47A0-B72A-C022C3FB68CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
