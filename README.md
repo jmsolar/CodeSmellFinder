@@ -38,9 +38,6 @@ dotnet SmellFinderTool.dll
 ![image](https://user-images.githubusercontent.com/19495643/177874503-f934b02d-a767-43eb-af0d-8f6190d62525.png)
 
 
-## Adding new visitors
-New visitor extensions are welcome! Check this guide to add visitors
-
 ## Contributing
 
 Want to help develop CodeSmellFinder project? Check out our [contribution guide](/CONTRIBUTING.md).
