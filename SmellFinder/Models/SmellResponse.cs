@@ -12,7 +12,5 @@ namespace SmellFinder.Models
         {
 
         }
-
-        public bool Contains(string position) => LinesAffected.Contains(position);
     }
 }

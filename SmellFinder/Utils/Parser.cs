@@ -1,5 +1,4 @@
 ﻿using Antlr4.Runtime;
-using SmellFinder.ErrorListeners;
 
 namespace SmellFinder.Utils
 {
@@ -7,14 +6,10 @@ namespace SmellFinder.Utils
     {
         public static JavaScriptParser Create(string fileContent)
         {
-            var stream = new AntlrInputStream(fileContent);
-            var lexer = new JavaScriptLexer(stream);
+            var lexer = new JavaScriptLexer(new AntlrInputStream(fileContent));
             lexer.RemoveErrorListeners();
-            lexer.AddErrorListener(new CustomErrorListener());
-            var tokenStream = new CommonTokenStream(lexer);
-            var parser = new JavaScriptParser(tokenStream);
+            var parser = new JavaScriptParser(new CommonTokenStream(lexer));
             parser.RemoveErrorListeners();
-            parser.AddErrorListener(new CustomErrorListener());
 
             return parser;
         }
