@@ -11,11 +11,12 @@ namespace SmellFinderTool.Core.Services.Interfaces
          void ShowDirectorySelected(string directoryName);
          void ClearScreen();
          List<string> ShowMenu(Dictionary<string, string> options);
-         void ShowProgress(Action[] tasks);
+         List<SmellReportedModel> ShowProgress(Func<List<SmellReportedModel>> task);
          void ShowException(Exception ex);
          void ShowErrorByNonExistDirectory(string directoryName);
          void Exit();
          void ShowCounterOfFiles(int numberOfFiles);
          void ShowEndOfProcess(string fileNameOutput);
+         string ShowOutputExtension(ReportSettings config);
     }
 }

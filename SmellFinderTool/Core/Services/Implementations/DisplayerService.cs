@@ -33,13 +33,12 @@ namespace SmellFinderTool.Core.Services.Implementations
 
         public void ShowDirectorySelected(string directoryName) =>
             AnsiConsole.MarkupLine(
-                        string.Join(
-                            " ",
-                            $"{MessageFormatterModel.GetFormattedText("deepskyblue3_1", "\nThe directories and subdirectories of")}",
-                            $"{MessageFormatterModel.GetFormattedText("gold3_1", directoryName)}",
-                            $"{MessageFormatterModel.GetFormattedText("deepskyblue3_1", "would be analyzed")}"
-                        )
-
+                string.Join(
+                    " ",
+                    $"{MessageFormatterModel.GetFormattedText("deepskyblue3_1", "\nThe directories and subdirectories of")}",
+                    $"{MessageFormatterModel.GetFormattedText("gold3_1 italic", directoryName)}",
+                    $"{MessageFormatterModel.GetFormattedText("deepskyblue3_1", "would be analyzed")}"
+                )
             );
 
         public List<string> ShowMenu(Dictionary<string, string> options)
@@ -49,7 +48,7 @@ namespace SmellFinderTool.Core.Services.Implementations
                     .Title($"What {MessageFormatterModel.GetFormattedText("springgreen4", "code smell")} do you need to validate?")
                     .NotRequired()
                     .PageSize(5)
-                    .MoreChoicesText($"{MessageFormatterModel.GetFormattedText("grey", "(Move up and down to reveal more code smells)")}")
+                    .MoreChoicesText($"{MessageFormatterModel.GetFormattedText("grey", "(Move up and down to reveal more options)")}")
                     .InstructionsText(
                         string.Join(
                             " ",
@@ -74,37 +73,40 @@ namespace SmellFinderTool.Core.Services.Implementations
                 string.Join(
                     " ",
                     $"{MessageFormatterModel.GetFormattedText("white on yellow", "\n WARN ")}",
-                    $"{MessageFormatterModel.GetFormattedText("yellow", "Should be select a option move on")}"
+                    $"{MessageFormatterModel.GetFormattedText("yellow", "Should be select a option to move on")}"
                 )
             );
 
             return selected;
         }
 
-        public void ShowProgress(Action[] tasks)
+        public List<SmellReportedModel> ShowProgress(Func<List<SmellReportedModel>> task)
         {
+            var result = new List<SmellReportedModel>();
+
             AnsiConsole
                 .Status()
+                .AutoRefresh(true)
                 .Start($"{MessageFormatterModel.GetFormattedText("yellow", "Searching bad smells...")}", ctx =>
                 {
-                    foreach (var task in tasks)
-                    {
-                        task.Invoke();
-                    }
+                    result = task.Invoke();
                 });
+
+            return result;
         }
 
         public void ShowErrorByNonExistDirectory(string directoryName) =>
             AnsiConsole.MarkupLine(
                 string.Join(
                     " ",
-                    $"{MessageFormatterModel.GetFormattedText("white on red", "\n\n FAIL ")}",
+                    $"{MessageFormatterModel.GetFormattedText("white on red", "\n FAIL ")}",
+                    $"{MessageFormatterModel.GetFormattedText("red", "path")}",
                     $"{directoryName}",
-                    $"{MessageFormatterModel.GetFormattedText("red", "path doesn't exist")}"
+                    $"{MessageFormatterModel.GetFormattedText("red", "doesn't exist")}"
                 )
             );
 
-        public void ShowException(Exception ex) => AnsiConsole.WriteException(ex);
+        public void ShowException(Exception ex) => AnsiConsole.WriteException(ex, ExceptionFormats.ShortenEverything);
 
         public void Exit()
         {
@@ -117,8 +119,7 @@ namespace SmellFinderTool.Core.Services.Implementations
         {
             var message = "Not found files to be processed";
 
-            if (numberOfFiles > 0)
-                message = $"There are {numberOfFiles} files to be processed";
+            if (numberOfFiles > 0) message = $"There are {numberOfFiles} files to be processed";
 
             AnsiConsole.MarkupLine($"\n{MessageFormatterModel.GetFormattedText("blue on white bold", message)}");
         }
@@ -127,11 +128,35 @@ namespace SmellFinderTool.Core.Services.Implementations
             AnsiConsole.MarkupLine(
                 string.Join(
                     " ",
-                    $"{MessageFormatterModel.GetFormattedText("white on springgreen4", "\n\n OK ")}",
-                    $"{MessageFormatterModel.GetFormattedText("yellow", "Review the result in the output file")}",
+                    $"{MessageFormatterModel.GetFormattedText("white on springgreen4", "\n OK ")}",
+                    $"{MessageFormatterModel.GetFormattedText("green", "Review the result in the output file")}",
                     $"{MessageFormatterModel.GetFormattedText("white italic", fileNameOutput)}"
                 )
             );
+
+        public string ShowOutputExtension(ReportSettings config)
+        {
+            var optionSelected = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title($"\nChoose the {MessageFormatterModel.GetFormattedText("springgreen4", "format of the report")} you want to generate")
+                    .PageSize(5)
+                    .MoreChoicesText($"{MessageFormatterModel.GetFormattedText("grey", "(Move up and down to reveal more options)")}")
+                    .AddChoices(config.FileExtension.Select(x => x.Description).ToList())
+            );
+
+            var fileExtensionSelected = ConvertDescriptionToFileExtension(config.FileExtension, optionSelected);
+
+            AnsiConsole.Markup(
+                string.Join(
+                    " ",
+                    $"{MessageFormatterModel.GetFormattedText("deepskyblue3_1", "You selected")}",
+                    $"{MessageFormatterModel.GetFormattedText("gold3_1 italic", optionSelected)}",
+                    $"{MessageFormatterModel.GetFormattedText("deepskyblue3_1", "as output format to report")}"
+                )
+            );
+
+            return fileExtensionSelected;
+        }
         #endregion
 
         #region  Private methods
@@ -145,13 +170,16 @@ namespace SmellFinderTool.Core.Services.Implementations
             }
         }
 
-        private List<string> ConvertSmellToVisitor(Dictionary<string, string> options, List<string> selected)
-        {
-            return options
+        private List<string> ConvertSmellToVisitor(Dictionary<string, string> options, List<string> selected) =>
+            options
                 .Where(x => selected.Contains(x.Value))
                 .Select(x => x.Key)
                 .ToList();
-        }
+
+        private string ConvertDescriptionToFileExtension(List<FileExtension> options, string selected) =>
+            options
+                .Where(x => selected.Contains(x.Description))
+                .Select(x => x.Type).FirstOrDefault();
         #endregion
     }
 }

@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using SmellFinderTool.Core.Models;
 using SmellFinderTool.Core.Services.Interfaces;
 
 namespace SmellFinderTool.Core.Services.Implementations
@@ -45,16 +43,6 @@ namespace SmellFinderTool.Core.Services.Implementations
             {
                 throw new Exception(ex.Message);
             }
-        }
-
-        public void AddReportData(string fileNameOutput, List<SmellReportedModel> data) {
-            string jsonString = JsonSerializer.Serialize(data, new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                IgnoreNullValues = true
-            });
-
-            File.AppendAllText(fileNameOutput, jsonString);
         }
         #endregion
     }

@@ -10,6 +10,5 @@ namespace SmellFinderTool.Core.Services.Interfaces
         string GetFileNameOutput(string path, string extension);
         Task<List<string>> GetFilesToProcess(string directory);
         string LoadFileContent(string filePath);
-        void AddReportData(string fileNameOutput, List<SmellReportedModel> data);
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using SmellFinderTool.Core.Models;
+using SmellFinderTool.Core.Services.Implementations.ReportWriterStrategies;
 using SmellFinderTool.Core.Services.Interfaces;
 
 namespace SmellFinderTool.Core.Services.Implementations
@@ -14,18 +15,22 @@ namespace SmellFinderTool.Core.Services.Implementations
         private readonly IAnalizerService _analizer;
         private readonly IFileSystemManagerService _fileSystemManager;
         private readonly AssemblyModel _assembly;
+        private IReportWriterStrategy _reportWriter;
+        private ReportSettings _config;
         #endregion
 
         #region Constructors
         public ConsoleApplication(
             IDisplayerService displayer,
             IAnalizerService analizer,
-            IFileSystemManagerService fileSystemManager
+            IFileSystemManagerService fileSystemManager,
+            ReportSettings config
         )
         {
             _displayer = displayer;
             _analizer = analizer;
             _fileSystemManager = fileSystemManager;
+            _config = config;
 
             _assembly = new AssemblyModel(
                     name: Assembly.GetExecutingAssembly().GetName().Name,
@@ -42,30 +47,33 @@ namespace SmellFinderTool.Core.Services.Implementations
                 _displayer.Init(_assembly);
 
                 var directoryName = _displayer.AskDirectoryName();
-                var existPath = _fileSystemManager.IsValidDirectory(directoryName);
 
-                if (existPath)
+                if (!_fileSystemManager.IsValidDirectory(directoryName))
                 {
-                    var filesToProcess = await _fileSystemManager.GetFilesToProcess(directoryName);
-                    var optionNames = _analizer.GetOptions();
-                    var optionsSelected = _displayer.ShowMenu(optionNames);
-
-                    if (optionsSelected.Any()) {
-                        _displayer.ShowDirectorySelected(directoryName);
-                        _displayer.ShowCounterOfFiles(filesToProcess.Count);
-
-                        var fileNameOutput = _fileSystemManager.GetFileNameOutput(directoryName, "json");
-                        var tasks = new Action[]
-                        {
-                            () => _analizer.SearchSmellsOnDirectory(filesToProcess, optionsSelected),
-                            () => GenerateReport(fileNameOutput)
-                        };
-
-                        _displayer.ShowProgress(tasks);
-                        _displayer.ShowEndOfProcess(fileNameOutput);
-                    }
+                    _displayer.ShowErrorByNonExistDirectory(directoryName);
+                    return;
                 }
-                else _displayer.ShowErrorByNonExistDirectory(directoryName);
+
+                var filesToProcess = await _fileSystemManager.GetFilesToProcess(directoryName);
+                var optionsSelected = _displayer.ShowMenu(_analizer.GetOptions());
+
+                if (optionsSelected.Any())
+                {
+                    _displayer.ShowDirectorySelected(directoryName);
+                    var outputExtension = _displayer.ShowOutputExtension(_config);
+                    _displayer.ShowCounterOfFiles(filesToProcess.Count);
+
+                    var filenameOutput = _fileSystemManager.GetFileNameOutput(directoryName, outputExtension);
+
+                    var action = new Action(() => _analizer.SearchSmellsOnDirectory(filesToProcess, optionsSelected));
+                    var res = _displayer.ShowProgress(() => {
+                        return _analizer.SearchSmellsOnDirectory(filesToProcess, optionsSelected);
+                    });
+
+                    _reportWriter = SetStrategy(outputExtension);
+                    _reportWriter.WriteReport(filenameOutput, res);
+                    _displayer.ShowEndOfProcess(filenameOutput);
+                }
             }
             catch (Exception ex)
             {
@@ -79,7 +87,20 @@ namespace SmellFinderTool.Core.Services.Implementations
         #endregion
 
         #region Private methods
-        private void GenerateReport(string fileNameOutput) => _fileSystemManager.AddReportData(fileNameOutput, _analizer.GetSmellsDetected());
+        private IReportWriterStrategy SetStrategy(string outputExtension)
+        {
+            switch (outputExtension.ToLower())
+            {
+                case "json":
+                    return new JSONReportWriterStrategy();
+                case "yaml":
+                    return new YAMLReportWriterStrategy();
+                case "text plain":
+                    return new TextPlainReportWriterStrategy();
+                default:
+                    return new JSONReportWriterStrategy();
+            }
+        }
         #endregion
     }
 }

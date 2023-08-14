@@ -15,19 +15,26 @@ namespace SmellFinderTool.Core.Services.Implementations
         private readonly IParserService _parser;
         private readonly IFileSystemManagerService _fileSystemManager;
         private readonly IReportBuilderService _reportBuilder;
+        private readonly IDisplayerService _displayer;
         private List<SmellReportedModel> _report { get; set; }
         #endregion
 
         #region Constructors
-        public AnalizerService(IParserService parser, IFileSystemManagerService fileSystemManager, IReportBuilderService reportBuilder)
+        public AnalizerService(
+            IParserService parser,
+            IFileSystemManagerService fileSystemManager,
+            IReportBuilderService reportBuilder,
+            IDisplayerService displayer
+        )
         {
             _parser = parser;
             _fileSystemManager = fileSystemManager;
             _reportBuilder = reportBuilder;
+            _displayer = displayer;
             _report = new List<SmellReportedModel>();
         }
         #endregion
-        
+
         #region Methods
         public Dictionary<string, string> GetOptions()
         {
@@ -50,28 +57,27 @@ namespace SmellFinderTool.Core.Services.Implementations
             return options;
         }
 
-        public void SearchSmellsOnDirectory(List<string> filesToProcess, List<string> smells)
+        public List<SmellReportedModel> SearchSmellsOnDirectory(List<string> filesToProcess, List<string> smells)
         {
             foreach (var filePath in filesToProcess)
             {
                 var fileContent = _fileSystemManager.LoadFileContent(filePath);
-
+                
                 if (!string.IsNullOrEmpty(fileContent)) {
                     var jsParser = _parser.GenerateJSParser(fileContent);
                     var smellsFounded = VisitorScanner.Search(smells, jsParser);
 
                     if (smellsFounded.Any()) {
                         _reportBuilder.AddHeader(filePath);
-                        _reportBuilder.AddSmells(smellsFounded);   
+                        _reportBuilder.AddSmells(smellsFounded); 
+
+                        _report.Add(_reportBuilder.GetSmellsDetected());  
                     }
                 }
-
-                if (_reportBuilder.HasSmells()) _report.Add(_reportBuilder.GetSmellsDetected());
-                _reportBuilder.Reset();
             }
-        }
 
-        public List<SmellReportedModel> GetSmellsDetected() => _report;
+            return _report;
+        }
         #endregion
     }
 }

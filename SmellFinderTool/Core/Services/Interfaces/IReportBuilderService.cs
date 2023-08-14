@@ -8,8 +8,6 @@ namespace SmellFinderTool.Core.Services.Interfaces
     {
          void AddSmells(List<SmellResponse> smellsToAdd);
          void AddHeader(string filePath);
-         void Reset();
          SmellReportedModel GetSmellsDetected();
-         bool HasSmells();
     }
 }

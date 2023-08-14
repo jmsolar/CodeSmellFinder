@@ -6,7 +6,6 @@ namespace SmellFinderTool.Core.Services.Interfaces
     public interface IAnalizerService
     {
         Dictionary<string, string> GetOptions();
-        void SearchSmellsOnDirectory(List<string> filesToProcess, List<string> smellsSelected);
-        List<SmellReportedModel> GetSmellsDetected();
+        List<SmellReportedModel> SearchSmellsOnDirectory(List<string> filesToProcess, List<string> smellsSelected);
     }
 }
