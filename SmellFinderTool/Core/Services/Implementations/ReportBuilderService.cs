@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using SmellFinder.Models;
 using SmellFinderTool.Core.Models;
 using SmellFinderTool.Core.Services.Interfaces;
@@ -35,11 +34,7 @@ namespace SmellFinderTool.Core.Services.Implementations
             }
         }
 
-        public void Reset() => _smellReported = null;
-
         public SmellReportedModel GetSmellsDetected() => _smellReported;
- 
-        public bool HasSmells() => _smellReported != null && _smellReported.Smells != null && _smellReported.Smells.Any();
         #endregion
     }
 }
