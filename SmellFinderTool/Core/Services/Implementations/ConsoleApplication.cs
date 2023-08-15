@@ -42,47 +42,51 @@ namespace SmellFinderTool.Core.Services.Implementations
         #region Methods
         public async Task Run()
         {
-            try
+            var follow = true;
+            string directoryName = string.Empty;
+
+            while (follow)
             {
-                _displayer.Init(_assembly);
-
-                var directoryName = _displayer.AskDirectoryName();
-
-                if (!_fileSystemManager.IsValidDirectory(directoryName))
+                try
                 {
-                    _displayer.ShowErrorByNonExistDirectory(directoryName);
-                    return;
+                    do
+                    {
+                        _displayer.Init(_assembly);
+                        directoryName = _displayer.ShowAskMessage($"\n\nWhich directory are you going to look for {MessageFormatterModel.GetFormattedText("springgreen4", "code smells")}?");
+
+                        var filesToProcess = await _fileSystemManager.GetFilesToProcess(directoryName);
+                        var optionsSelected = _displayer.ShowMenu(_analizer.GetOptions());
+
+                        if (optionsSelected.Any())
+                        {
+                            _displayer.ShowDirectorySelected(directoryName);
+                            var outputExtension = _displayer.ShowOutputExtension(_config);
+                            _displayer.ShowCounterOfFiles(filesToProcess.Count);
+
+                            var filenameOutput = _fileSystemManager.GetFileNameOutput(directoryName, outputExtension);
+
+                            var action = new Action(() => _analizer.SearchSmellsOnDirectory(filesToProcess, optionsSelected));
+                            var res = _displayer.ShowProgress(() =>
+                            {
+                                return _analizer.SearchSmellsOnDirectory(filesToProcess, optionsSelected);
+                            });
+
+                            _reportWriter = SetStrategy(outputExtension);
+                            _reportWriter.WriteReport(filenameOutput, res);
+                            _displayer.ShowEndOfProcess(filenameOutput);
+                        }
+
+                        follow = _displayer.ShowConfirmMessage("Want you search others smells?");
+
+                        if (follow) _displayer.ClearScreen();
+                    } while (follow);
                 }
-
-                var filesToProcess = await _fileSystemManager.GetFilesToProcess(directoryName);
-                var optionsSelected = _displayer.ShowMenu(_analizer.GetOptions());
-
-                if (optionsSelected.Any())
+                catch (Exception ex)
                 {
-                    _displayer.ShowDirectorySelected(directoryName);
-                    var outputExtension = _displayer.ShowOutputExtension(_config);
-                    _displayer.ShowCounterOfFiles(filesToProcess.Count);
-
-                    var filenameOutput = _fileSystemManager.GetFileNameOutput(directoryName, outputExtension);
-
-                    var action = new Action(() => _analizer.SearchSmellsOnDirectory(filesToProcess, optionsSelected));
-                    var res = _displayer.ShowProgress(() => {
-                        return _analizer.SearchSmellsOnDirectory(filesToProcess, optionsSelected);
-                    });
-
-                    _reportWriter = SetStrategy(outputExtension);
-                    _reportWriter.WriteReport(filenameOutput, res);
-                    _displayer.ShowEndOfProcess(filenameOutput);
+                    _displayer.ShowSimpleMessage(ex.Message);
+                    follow = _displayer.ShowConfirmMessage("Want you search others smells?");
                 }
-            }
-            catch (Exception ex)
-            {
-                _displayer.ShowException(ex);
-            }
-            finally
-            {
-                _displayer.Exit();
-            }
+            }   
         }
         #endregion
 

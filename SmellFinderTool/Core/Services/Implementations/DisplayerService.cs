@@ -24,10 +24,7 @@ namespace SmellFinderTool.Core.Services.Implementations
             );
         }
 
-        public string AskDirectoryName() =>
-            AnsiConsole.Ask<string>(
-                $"\n\nWhich directory are you going to look for {MessageFormatterModel.GetFormattedText("springgreen4", "code smells")}?"
-            );
+        public string ShowAskMessage(string message) => AnsiConsole.Ask<string>(message);
 
         public void ClearScreen() => AnsiConsole.Clear();
 
@@ -95,26 +92,6 @@ namespace SmellFinderTool.Core.Services.Implementations
             return result;
         }
 
-        public void ShowErrorByNonExistDirectory(string directoryName) =>
-            AnsiConsole.MarkupLine(
-                string.Join(
-                    " ",
-                    $"{MessageFormatterModel.GetFormattedText("white on red", "\n FAIL ")}",
-                    $"{MessageFormatterModel.GetFormattedText("red", "path")}",
-                    $"{directoryName}",
-                    $"{MessageFormatterModel.GetFormattedText("red", "doesn't exist")}"
-                )
-            );
-
-        public void ShowException(Exception ex) => AnsiConsole.WriteException(ex, ExceptionFormats.ShortenEverything);
-
-        public void Exit()
-        {
-            AnsiConsole.MarkupLine($"\n{MessageFormatterModel.GetFormattedText("grey", "Press any key to close window")}");
-            AnsiConsole.Console.Input.ReadKey(true);
-            ClearScreen();
-        }
-
         public void ShowCounterOfFiles(int numberOfFiles)
         {
             var message = "Not found files to be processed";
@@ -156,6 +133,15 @@ namespace SmellFinderTool.Core.Services.Implementations
             );
 
             return fileExtensionSelected;
+        }
+
+        public bool ShowConfirmMessage(string message)
+        {
+            return AnsiConsole.Confirm(message);
+        }
+
+        public void ShowSimpleMessage(string message) {
+            AnsiConsole.MarkupLine(message);
         }
         #endregion
 
