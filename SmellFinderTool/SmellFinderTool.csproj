@@ -6,6 +6,7 @@
     <StartupObject>SmellFinderTool.Program</StartupObject>
     <PackageIcon>icon.png</PackageIcon>
     <SignAssembly>False</SignAssembly>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
