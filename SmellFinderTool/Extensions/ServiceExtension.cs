@@ -30,6 +30,7 @@ namespace SmellFinderTool.Extensions
             services.AddScoped<IReportBuilderService, ReportBuilderService>();
             services.AddScoped<IParserService, ParserService>();
             services.AddScoped<IAnalizerService, AnalizerService>();
+            services.AddSingleton<IResourceService, ResourceService>();
             services.AddTransient<ConsoleApplication>();
             services.AddSingleton(reportSettings);
 

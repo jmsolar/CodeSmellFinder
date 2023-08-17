@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SmellFinderTool.Core.Models;
 
 namespace SmellFinderTool.Core.Services.Interfaces
 {

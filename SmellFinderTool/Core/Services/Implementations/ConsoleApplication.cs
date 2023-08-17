@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using SmellFinderTool.Core.Models;
 using SmellFinderTool.Core.Services.Implementations.ReportWriterStrategies;
 using SmellFinderTool.Core.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace SmellFinderTool.Core.Services.Implementations
 {
@@ -17,6 +18,7 @@ namespace SmellFinderTool.Core.Services.Implementations
         private readonly AssemblyModel _assembly;
         private IReportWriterStrategy _reportWriter;
         private ReportSettings _config;
+        private readonly IResourceService _textResource;
         #endregion
 
         #region Constructors
@@ -24,13 +26,15 @@ namespace SmellFinderTool.Core.Services.Implementations
             IDisplayerService displayer,
             IAnalizerService analizer,
             IFileSystemManagerService fileSystemManager,
-            ReportSettings config
+            ReportSettings config,
+            IResourceService resourceService
         )
         {
             _displayer = displayer;
             _analizer = analizer;
             _fileSystemManager = fileSystemManager;
             _config = config;
+            _textResource = resourceService;
 
             _assembly = new AssemblyModel(
                     name: Assembly.GetExecutingAssembly().GetName().Name,
@@ -42,8 +46,9 @@ namespace SmellFinderTool.Core.Services.Implementations
         #region Methods
         public async Task Run()
         {
-            var follow = true;
+            bool follow = true;
             string directoryName = string.Empty;
+            string message = string.Empty;
 
             while (follow)
             {
@@ -52,7 +57,8 @@ namespace SmellFinderTool.Core.Services.Implementations
                     do
                     {
                         _displayer.Init(_assembly);
-                        directoryName = _displayer.ShowAskMessage($"\n\nWhich directory are you going to look for {MessageFormatterModel.GetFormattedText("springgreen4", "code smells")}?");
+                        message = _textResource.GetStringResource("askDirectoryName", new List<string> { {MessageFormatterModel.GetFormattedText("springgreen4", "code smells")} });
+                        directoryName = _displayer.ShowAskMessage($"{message}");
 
                         var filesToProcess = await _fileSystemManager.GetFilesToProcess(directoryName);
                         var optionsSelected = _displayer.ShowMenu(_analizer.GetOptions());
@@ -76,7 +82,7 @@ namespace SmellFinderTool.Core.Services.Implementations
                             _displayer.ShowEndOfProcess(filenameOutput);
                         }
 
-                        follow = _displayer.ShowConfirmMessage("Want you search others smells?");
+                        follow = _displayer.ShowConfirmMessage(_textResource.GetStringResource("reprocess"));
 
                         if (follow) _displayer.ClearScreen();
                     } while (follow);
@@ -86,7 +92,7 @@ namespace SmellFinderTool.Core.Services.Implementations
                     _displayer.ShowSimpleMessage(ex.Message);
                     follow = _displayer.ShowConfirmMessage("Want you search others smells?");
                 }
-            }   
+            }
         }
         #endregion
 
