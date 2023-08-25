@@ -18,13 +18,13 @@ namespace SmellFinderTool.Core.Services.Implementations
             return Directory.Exists(directoryName);
         }
 
-        public string GetFileNameOutput(string path, string extension) => 
+        public string FilenameOutput(string path, string extension) => 
             Path.Combine(
                 path, 
                 $"BS-{DateTime.Now.ToString("yyyyMMddHHmmssffff")}.{extension}"
             );
 
-        public async Task<List<string>> GetFilesToProcess(string directory) {
+        public async Task<List<string>> FilesToProcess(string directory) {
             if (!IsValidDirectory(directory)) throw new Exception(
                 string.Join(
                     " ",
