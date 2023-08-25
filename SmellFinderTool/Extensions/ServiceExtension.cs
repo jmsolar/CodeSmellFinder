@@ -20,6 +20,7 @@ namespace SmellFinderTool.Extensions
             var services = new ServiceCollection();
 
             ReportSettings reportSettings = configuration.GetSection("Report").Get<ReportSettings>();
+            LanguageSettings languageSettings = configuration.GetSection("Language").Get<LanguageSettings>();
            
            // Register services
             services.AddScoped<IReportWriterStrategy, JSONReportWriterStrategy>();
@@ -33,6 +34,7 @@ namespace SmellFinderTool.Extensions
             services.AddSingleton<IResourceService, ResourceService>();
             services.AddTransient<ConsoleApplication>();
             services.AddSingleton(reportSettings);
+            services.AddSingleton(languageSettings);
 
             return services.BuildServiceProvider(true);
         }
