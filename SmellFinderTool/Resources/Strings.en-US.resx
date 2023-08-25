@@ -134,15 +134,15 @@
     <comment/>
   </data>
   <data name="warn" xml:space="preserve">
-    <value>\n WARN </value>
+    <value>  WARN  </value>
     <comment/>
   </data>
   <data name="error" xml:space="preserve">
-    <value>\n ERROR </value>
+    <value>  ERROR  </value>
     <comment/>
   </data>
   <data name="success" xml:space="preserve">
-    <value>\n SUCCESS</value>
+    <value>  SUCCESS  </value>
     <comment/>
   </data>
   <data name="selectOption" xml:space="preserve">
@@ -150,27 +150,23 @@
     <comment/>
   </data>
   <data name="progress" xml:space="preserve">
-    <value>Searching bad smells...</value>
+    <value>Searching code smells...</value>
     <comment/>
   </data>
   <data name="notFoundFile" xml:space="preserve">
-    <value>Not found files to be processed</value>
+    <value>{0} Not found files to be processed</value>
     <comment/>
   </data>
   <data name="numberOfFile" xml:space="preserve">
-    <value>There are {0} files to be processed</value>
+    <value>{0} There are {1} files to be analyzed</value>
     <comment/>
   </data>
   <data name="okResult" xml:space="preserve">
-    <value>Review the result in the output file</value>
-    <comment/>
-  </data>
-  <data name="directoryToProcess" xml:space="preserve">
-    <value>The directories and subdirectories of {0} would be analyzed</value>
+    <value>{0} Review the result in the path {1}</value>
     <comment/>
   </data>
   <data name="chooseExtensionFile" xml:space="preserve">
-    <value>Choose the {0} you want to generate</value>
+    <value>Choose the format of the report you want to generate</value>
     <comment/>
   </data>
   <data name="outputFileExtensionSelected" xml:space="preserve">
@@ -183,6 +179,30 @@
   </data>
   <data name="reprocess" xml:space="preserve">
     <value>Want you search others smells?</value>
+    <comment/>
+  </data>
+  <data name="smellsInstructions" xml:space="preserve">
+    <value>(Press {0} to toggle a code smell, {1} to accept and continue)</value>
+    <comment/>
+  </data>
+  <data name="selectorKey" xml:space="preserve">
+    <value>&lt;space&gt;</value>
+    <comment/>
+  </data>
+  <data name="continueKey" xml:space="preserve">
+    <value>&lt;enter&gt;</value>
+    <comment/>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>y</value>
+    <comment/>
+  </data>
+  <data name="no" xml:space="preserve">
+    <value>n</value>
+    <comment/>
+  </data>
+  <data name="info" xml:space="preserve">
+    <value>  INFO  </value>
     <comment/>
   </data>
 </root>

@@ -117,12 +117,6 @@ namespace SmellFinderTool.Resources {
             }
         }
         
-        internal static string directoryToProcess {
-            get {
-                return ResourceManager.GetString("directoryToProcess", resourceCulture);
-            }
-        }
-        
         internal static string chooseExtensionFile {
             get {
                 return ResourceManager.GetString("chooseExtensionFile", resourceCulture);
@@ -144,6 +138,36 @@ namespace SmellFinderTool.Resources {
         internal static string reprocess {
             get {
                 return ResourceManager.GetString("reprocess", resourceCulture);
+            }
+        }
+        
+        internal static string smellsInstructions {
+            get {
+                return ResourceManager.GetString("smellsInstructions", resourceCulture);
+            }
+        }
+        
+        internal static string selectorKey {
+            get {
+                return ResourceManager.GetString("selectorKey", resourceCulture);
+            }
+        }
+        
+        internal static string continueKey {
+            get {
+                return ResourceManager.GetString("continueKey", resourceCulture);
+            }
+        }
+        
+        internal static string yes {
+            get {
+                return ResourceManager.GetString("yes", resourceCulture);
+            }
+        }
+        
+        internal static string no {
+            get {
+                return ResourceManager.GetString("no", resourceCulture);
             }
         }
     }

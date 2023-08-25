@@ -118,71 +118,91 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="askDirectoryName" xml:space="preserve">
-    <value>¿En qué directorio vas a buscar {0}?</value>
+    <value>¿En qué directorio va a buscar {0}?</value>
     <comment/>
   </data>
   <data name="askSmellToValidate" xml:space="preserve">
-    <value>Qué {0} necesitas validar?</value>
+    <value>¿Qué {0} necesita validar?</value>
     <comment/>
   </data>
   <data name="menuChoiceText" xml:space="preserve">
-    <value>(Muévase hacia arriba y hacia abajo para revelar más opciones)</value>
+    <value>(Muévase hacia arriba y hacia abajo para obtener más opciones)</value>
     <comment/>
   </data>
   <data name="all" xml:space="preserve">
-    <value>Todas</value>
+    <value>Todos</value>
     <comment/>
   </data>
   <data name="warn" xml:space="preserve">
-    <value>\n WARN </value>
+    <value>  CUIDADO  </value>
     <comment/>
   </data>
   <data name="error" xml:space="preserve">
-    <value>\n ERROR </value>
+    <value>  ERROR  </value>
     <comment/>
   </data>
   <data name="success" xml:space="preserve">
-    <value>\n SUCCESS</value>
+    <value>  PERFECTO  </value>
     <comment/>
   </data>
   <data name="selectOption" xml:space="preserve">
-    <value>Se debe seleccionar una opción para continuar</value>
+    <value>Seleccione una opción para continuar</value>
     <comment/>
   </data>
   <data name="progress" xml:space="preserve">
-    <value>Buscando bad smells...</value>
+    <value>Buscando code smells...</value>
     <comment/>
   </data>
   <data name="notFoundFile" xml:space="preserve">
-    <value>No se encontraron archivos para procesar</value>
+    <value>{0} No se encontraron archivos para procesar</value>
     <comment/>
   </data>
   <data name="numberOfFile" xml:space="preserve">
-    <value>Hay {0} para ser procesados</value>
+    <value>{0} Hay {1} archivos para ser analizados</value>
     <comment/>
   </data>
   <data name="okResult" xml:space="preserve">
-    <value>Revisa el resultado en el archivo</value>
-    <comment/>
-  </data>
-  <data name="directoryToProcess" xml:space="preserve">
-    <value>Se analizaran los directorios y subdirectorios de {0}</value>
+    <value>{0} Revise el resultado del análisis en la ruta {1}</value>
     <comment/>
   </data>
   <data name="chooseExtensionFile" xml:space="preserve">
-    <value>Elija el {0} que desea generar</value>
+    <value>Seleccione el tipo de reporte que desea generar</value>
     <comment/>
   </data>
   <data name="outputFileExtensionSelected" xml:space="preserve">
-    <value>Seleccionó {0} como formato de salida para el reporte</value>
+    <value>Selecciono {0} como formato de salida para el reporte</value>
     <comment/>
   </data>
   <data name="optionsSelected" xml:space="preserve">
-    <value>Seleccionaste las siguientes opciones:</value>
+    <value>Selecciono las siguientes opciones:</value>
     <comment/>
   </data>
   <data name="reprocess" xml:space="preserve">
-    <value>Necesitas volver a buscar nuevos bad smells?</value>
+    <value>¿Necesita volver a buscar nuevos code smells?</value>
+    <comment/>
+  </data>
+  <data name="smellsInstructions" xml:space="preserve">
+    <value>(Presione {0} para seleccionar un code smell, {1} para aceptar y continuar)</value>
+    <comment/>
+  </data>
+  <data name="selectorKey" xml:space="preserve">
+    <value>&lt;barra espaciadora&gt;</value>
+    <comment/>
+  </data>
+  <data name="continueKey" xml:space="preserve">
+    <value>&lt;continuar&gt;</value>
+    <comment/>
+  </data>
+  <data name="yes" xml:space="preserve">
+    <value>s</value>
+    <comment/>
+  </data>
+  <data name="no" xml:space="preserve">
+    <value>n</value>
+    <comment/>
+  </data>
+  <data name="info" xml:space="preserve">
+    <value>  INFO  </value>
     <comment/>
   </data>
 </root>
